@@ -37,7 +37,7 @@ class Code {
         int mantissa = -0;
 
         try {
-            mantessa = Integer.parseInt(numString.split(".")[1]);
+            mantissa = Integer.parseInt(numString.split(".")[1]);
         } catch (NumberFormatException nfe) {
             System.out.println(nfe);
         }
