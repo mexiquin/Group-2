@@ -54,9 +54,9 @@ class Code {
 
         for (char c : chars){
             if(!Character.isDigit(c)){
-                // Do something if any of the character values are NOT valid numbers
+                // TODO something if any of the character values are NOT valid numbers
             } else {
-                // Do something if all is okay
+                // TODO something if all is okay
             }
         }
 
