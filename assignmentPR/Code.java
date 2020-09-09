@@ -1,5 +1,5 @@
 /**
- * A class that extracts the mantissa and characteristic from a char[] that is
+ * A class that extracts the mantissa and characteristic from a String that is
  * acting to simulate a floating point number
  *
  * Implementation of function F1
@@ -7,60 +7,118 @@
 class Code {
 
     /**
-     * Method for determining if the 'characteristic' of an inputted pseudo-floating
-     * point char array
-     * 
-     * @param numString input number as a char array
-     * @return The value that represents the component. If fail, return -0
+     * Method for determining if the 'characteristic' is of an inputted pseudo-floating point String
+     *
+     * @param numString input number as a String
+     * @return true if number is valid
      */
-    int characteristic(String numString) {
+    static boolean characteristic(String numString) {
         // Declaring/Initializing variables
-        int d = -0;
+        int d = 0;
+
+        // Try to convert string to double, and then cast to int
         try {
-            d = (int) Double.parseDouble(numString);
-        } catch (NumberFormatException nfe) {
-            System.out.println(nfe);
+            d = (int)Double.parseDouble(numString);
+        }
+        catch (NumberFormatException nfe) {
+            return false;
         }
 
-        return d;
+        // Return true if conversion successful
+        return true;
     }
 
     /**
-     * Method for extracting the mantissa of an inputted pseudo-floating point char
-     * array
-     * 
-     * @param numString input number as char array
-     * @return the value that represents the mantissa
+     * Method for extracting the mantissa is of an inputted pseudo-floating point String
+     *
+     * @param numString input number as String
+     * @return true if number is valid
      */
-    int mantissa(String numString) {
-
-        int mantissa = -0;
-
-        try {
-            mantissa = Integer.parseInt(numString.split(".")[1]);
-        } catch (NumberFormatException nfe) {
-            System.out.println(nfe);
+    static boolean mantissa(String numString) {
+        // Return false if numString is not a valid number
+        if ((numString.split("\\.")).length != 1 && (numString.split("\\.")).length != 2) {
+            return false;
         }
 
-        return mantissa;
+        // Return true if otherwise
+        return true;
     }
 
     public static void main(String[] args) {
 
-        String number = "123.456";
+        // Test number
+        String number = "23.44602";
 
-        // convert number into a char[]
-        char[] chars = number.toCharArray();
+        // Declaring/Initializing variables
+        String numerator = "";
+        String denominator = "10";
+        String mantissa;
+        String after_dec;
+        int num_of_zeros = 0;
+        int i;
+        int characteristic;
 
-        for (char c : chars){
-            if(!Character.isDigit(c)){
-                // TODO something if any of the character values are NOT valid numbers
-            } else {
-                // TODO something if all is okay
+        // Checking results for functions
+        if (characteristic(number) && mantissa(number)) {
+            // Checking the number of decimals
+            if ((number.split("\\.")).length == 2) {
+                after_dec = number.split("\\.")[1];
+
+                for (i = 0; i < after_dec.length(); i++) {
+
+                  // Counting number of zeros after decimal but before first non-zero number
+                  if (after_dec.charAt(i) == '0') {
+                      num_of_zeros++;
+                  }
+
+                  if (after_dec.charAt(i) != '0') {
+                      numerator = after_dec.substring(after_dec.indexOf(after_dec.charAt(i)));
+                      break;
+                  }
+                }
+
+                // If no number after decimal, mantissa is 0
+                if (numerator == "") {
+                    mantissa = "0";
+                }
+
+                // else, add zeros to denominator based off of length of number
+                else {
+                    for (i = 0; i < num_of_zeros; i++) {
+                        denominator += "0";
+                    }
+
+                    for (i = 1; i < numerator.length(); i++) {
+                        denominator += "0";
+                    }
+
+                    // Get rid of leading/trailing whitespace
+                    numerator = numerator.trim();
+                    // Concatenate to create a "fraction"
+                    mantissa = numerator + '/' + denominator;
+                }
             }
+
+            // Check if no decimals
+            else {
+                mantissa = "0";
+            }
+
+            // Initializing the characteristic
+            characteristic = (int)Double.parseDouble(number);
+
+            // Printing out results
+            System.out.println("Characteristic: " + characteristic);
+
+            System.out.println("Mantissa: " + mantissa);
+
         }
 
-        
-    }
+        // Number isn't valid
+        else {
+            System.out.println("The input number is not valid");
+        }
 
+    }
 }
+
