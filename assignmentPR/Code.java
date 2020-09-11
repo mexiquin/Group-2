@@ -13,6 +13,7 @@ class Code {
      * @return true if number is valid
      */
     static boolean characteristic(String numString) {
+        
         // Declaring/Initializing variables
         int d = 0;
 
@@ -45,6 +46,7 @@ class Code {
     }
 
     static String F1(String numString) {
+        
       // Declaring/Initializing variables
       String numerator = "";
       String denominator = "10";
